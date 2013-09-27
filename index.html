@@ -1,0 +1,165 @@
+<html>
+
+	<head>
+
+		<title>SportCam</title>
+
+		<link type="text/css" rel="stylesheet" href="css/style.css" />
+
+		<script src="phonegap.js"></script>
+
+
+	
+<script language="JavaScript">
+var d = new Date();
+var n = d.getTime(); 
+var ip = "192.168.178.201";
+var swapValue;
+swapValue=1;
+
+var hratio;
+var wratio;
+hratio = (window.innerHeight-16)/545;
+wratio = (window.innerWidth-16)/1139;
+//--------------
+
+
+
+
+//detect window resize event and reset global ratio values
+window.onresize = function(event)
+{
+hratio = (window.innerHeight-16)/545;
+wratio = (window.innerWidth-16)/1139;
+}
+//-----------
+
+
+
+function getMove1(event, img)
+    {
+        var relativeX = event.clientX - img.offsetLeft;
+
+
+        var h = (10* relativeX /window.innerWidth)  ;
+ pos_x = event.offsetX?(event.offsetX):event.pageX-document.getElementById("fieldpicture1").offsetLeft;
+ pos_y = event.offsetY?(event.offsetY):event.pageY-document.getElementById("fieldpicture1").offsetTop;
+ 
+ set_x = 7*pos_x/640;
+ set_y = 3*pos_y /360;
+ 
+ preseth= "3";
+
+  if (set_x <= 1)              {  preseth= "1";}
+  if (set_x > 1 && set_x <= 2) {  preseth= "2";}
+  if (set_x > 2 && set_x <= 3) {  preseth= "3";}
+  if (set_x > 3 && set_x <= 4) {  preseth= "4";}
+  if (set_x > 4 && set_x <= 5) {  preset=  "5";}
+  if (set_x > 5 && set_x <= 6) {  preseth= "6";}
+  if (set_x > 6 )              {  preseth= "7";}
+
+presetv= "B";
+
+  if (set_y <= 1)              {  presetv= "A";}
+  if (set_y > 1 && set_y <= 2) {  presetv= "B";}
+  if (set_y > 2 )              {  presetv= "C";}
+
+
+    window.frames['iframe1'].location = "http://" + ip + ":8081//cgi-bin/viewer/recall.cgi?recall="+ preseth+presetv;
+
+    }
+
+function gocirkel1()
+{
+        d = new Date();
+        n = d.getTime();            
+        window.frames['iframe1'].location = "http://" + ip + ":8081//cgi-bin/viewer/recall.cgi?recall=CIRCLE1" 
+}
+
+function gocirkel2()
+{
+        d = new Date();
+        n = d.getTime();            
+        window.frames['iframe1'].location = "http://" + ip + ":8081//cgi-bin/viewer/recall.cgi?recall=CIRCLE2" 
+}
+
+
+function goHome()
+{
+        d = new Date();
+        n = d.getTime();            
+        window.frames['iframe1'].location = "http://" + ip + ":8081/cgi-bin/viewer/camctrl.cgi?channel=0&move=home"+"&"+n;
+}
+
+function pan(directionx,speedx)
+{
+         
+          window.frames['iframe1'].location = "http://" + ip + ":8081/cgi-bin/viewer/camctrl.cgi?channel=0&vx="+ directionx + "&vy=0&vs="+speedx;
+}
+
+function tiltup()
+{
+          window.frames['iframe1'].location = "http://" + ip + ":8081/cgi-bin/viewer/camctrl.cgi?channel=0&camid=1&x=352&y=100&resolution=704x480&videosize=704x480&strech=1&xyzk";
+}
+
+function tiltdown()
+{
+          window.frames['iframe1'].location = "http://" + ip + ":8081/cgi-bin/viewer/camctrl.cgi?channel=0&camid=1&x=352&y=380&resolution=704x480&videosize=704x480&strech=1&xyzk";
+}
+
+
+</script>
+
+
+</head>
+
+<body bgcolor="lightblue">
+<center>
+<table  width="100%" border="0">
+<tr>
+<td width="100">
+<img src="button_up.jpg" width="100" height="100" onclick="tiltup();"><br/>
+<img src="button_circle1.jpg" width="100" height="100" onclick="gocirkel1();"><br/>
+<img src="button_down.jpg" width="100" height="100" onclick="tiltdown();"><br/>
+</td>
+<td align="center">
+<img src="http://192.168.178.201:8081/video.mjpg" name="fieldpicture1" width="640" height="360" onclick="getMove1(event, this);">
+<br/> 
+</td>
+<td width="100">
+<img src="button_up.jpg" width="100" height="100" onclick="tiltup();"><br/>
+<img src="button_circle2.jpg" width="100" height="100" onclick="gocirkel2();"><br/>
+<img src="button_down.jpg" width="100" height="100" onclick="tiltdown();"><br/>
+</td>
+</tr>
+</table>
+
+<img src="button_left_left_left.jpg" width="100" height="100" onclick="pan(-1,30);">
+<img src="button_left_left.jpg" width="100" height="100" onclick="pan(-1,20);">
+<img src="button_left.jpg" width="100" height="100" onclick="pan(-1,10);">
+<img src="button_stop.jpg" width="100" height="100" onclick="pan(1,0);">
+<img src="button_right.jpg" width="100" height="100" onclick="pan(1,10);">
+<img src="button_right_right.jpg" width="100" height="100" onclick="pan(1,20);">
+<img src="button_right_right_right.jpg" width="100" height="100" onclick="pan(1,30);"><br/>
+Druk de Knoppen  <<, <,  >, >> voor vloeiende beweging<br/>
+Druk in het beeld voor snelle sprong daar dat gedeelte van het veld.<br/>
+</center>
+<iframe  name="iframe1"  width="100%"  height="20" src="" frameborder="0" style="background-color:#cfc" scrolling="no" >STATUS
+</iframe>
+
+
+
+
+<br/> 
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
